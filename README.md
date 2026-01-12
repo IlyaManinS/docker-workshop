@@ -14,3 +14,8 @@ DataTalks Workshop for Docker
 
 <!-- docker ps -a - to see the images -->
 
+<!-- docker build -t test:pandas . - build based on the Dockerfile -->
+
+<!-- docker run -it --entrypoint=bash --rm test:pandas - run it afterwards -->
+
+
