@@ -1,36 +1,40 @@
+#Some defaults will be in the non-commitable file
+
 variable "credentials" {
-  description = "My Credentials"
-  default     = "./keys/my_creds.json"
+  description = "Path to GCP service account credentials JSON file"
+  type        = string
 }
 
 variable "project" {
-  description = "Project Name"
-  default     = "project-6e52c6e7-52bb-421e-a6c"
-}
-
-variable "location" {
-  description = "Project Location"
-  default     = "US"
+  description = "GCP Project ID"
+  type        = string
 }
 
 variable "region" {
-  description = "Project Region"
+  description = "GCP region for resources"
+  type        = string
   default     = "us-central1"
 }
 
-variable "bq_daataset_name" {
-  description = "My BigQuery Dataset Name"
-  default     = "demo_bigquery"
+variable "location" {
+  description = "GCP location for multi-regional resources"
+  type        = string
+  default     = "US" 
 }
 
 variable "gcs_bucket_name" {
-  description = "My Storage Bucket Name"
-  default     = "project-6e52c6e7-52bb-421e-a6c-terra-bucket"
+  description = "Name for the GCS bucket (must be globally unique)"
+  type        = string
 }
 
+variable "bq_dataset_name" { 
+  description = "Name for the BigQuery dataset"
+  type        = string
+  default     = "demo_dataset"
+}
 
 variable "gcs_storage_class" {
-  description = "Bucket Storage Class"
-  default     = "STANDARD"
+  description = "Storage class for GCS bucket"
+  type        = string
+  default     = "STANDARD" 
 }
-
