@@ -15,8 +15,9 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "version": "latest"
     },
-    // GitHub CLI
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    // GitHub CLI + LFS
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
   
   // Install packages directly + from requirements.txt if it exists
