@@ -36,8 +36,8 @@ SELECT "Zone", ROUND(SUM(total_amount)::numeric,2) as zone_total,
 RANK() OVER (ORDER BY SUM(total_amount) DESC) as zone_rank  
 FROM public.green_taxi_trips t  
 INNER JOIN public.taxi_zones z  
-ON t."PULocationID" = z."LocationID" 
-WHERE lpep_pickup_datetime BETWEEN '2025-11-18 00:00:00' AND '2025-11-18 23:59:59'
+ON t."PULocationID" = z."LocationID"   
+WHERE lpep_pickup_datetime BETWEEN '2025-11-18 00:00:00' AND '2025-11-18 23:59:59'  
 GROUP BY "Zone"  
 )  
 SELECT "Zone", zone_total  
@@ -52,17 +52,17 @@ Answer: East Harlem North
 
 -- again, using a CTE in case there are multiple zones with the same maximum tip  
 
-WITH ranked_drop_offs AS  
+WITH ranked_drop_offs AS    
 (  
 SELECT dropoff."Zone", MAX(tip_amount) as max_amount,  
 RANK() OVER (ORDER BY MAX(tip_amount) DESC) as zone_rank  
-FROM public.taxi_zones pickup
-INNER JOIN public.green_taxi_trips t 
-ON t."PULocationID" = pickup."LocationID"
-INNER JOIN public.taxi_zones dropoff  
-ON t."DOLocationID" = dropoff."LocationID" 
-WHERE pickup."Zone" = 'East Harlem North'
-AND lpep_pickup_datetime BETWEEN '2025-11-01 00:00:00' AND '2025-11-30 23:59:59'
+FROM public.taxi_zones pickup  
+INNER JOIN public.green_taxi_trips t   
+ON t."PULocationID" = pickup."LocationID"  
+INNER JOIN public.taxi_zones dropoff    
+ON t."DOLocationID" = dropoff."LocationID"   
+WHERE pickup."Zone" = 'East Harlem North'  
+AND lpep_pickup_datetime BETWEEN '2025-11-01 00:00:00' AND '2025-11-30 23:59:59'  
 GROUP BY dropoff."Zone"  
 )  
 SELECT "Zone", max_amount  
