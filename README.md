@@ -129,3 +129,81 @@ It can be done in the cron job expression:
       taxi: yellow
 ```
 Answer: <b>America/New_York</b>
+
+
+# Data Warehouse chapter (BigQuery)
+
+<h3>Prerequisites</h3>  
+
+-- creating an external table for 2024  
+
+CREATE OR REPLACE EXTERNAL TABLE kestra-project-486201.nytaxi.external_yellow_2024_tripdata   
+OPTIONS (  
+    format = 'PARQUET',  
+    uris = ['gs://warehouse-project-zoomcamp-ilya/yellow_tripdata_2024-*.parquet']  
+    )    
+
+
+-- creating a table from an external one for 2024  
+
+CREATE OR REPLACE TABLE kestra-project-486201.nytaxi.yellow_2024_tripdata AS (  
+  SELECT *  
+  FROM kestra-project-486201.nytaxi.external_yellow_2024_tripdata  
+)    
+
+<h3>Question 1</h3>  
+
+The information can be accessible via:  
+Materialized Table >> Details >> =  <b>20,332,093</b>  
+
+<h3>Question 2</h3>  
+
+You can do this via writing these queries and highlighting each one to see the BigQuery estimated calculation:  
+
+-- materialized table - 155.12MB  
+SELECT distinct PULocationID  
+FROM kestra-project-486201.nytaxi.yellow_2024_tripdata    
+
+-- external table - 0B  
+SELECT distinct PULocationID  
+FROM kestra-project-486201.nytaxi.external_yellow_2024_tripdata   
+
+Answer: <b>0 MB for the External Table and 155.12 MB for the Materialized Table</b>  
+
+<h3>Question 3</h3>  
+
+Query:  
+
+SELECT distinct PULocationID, DOLocationID  
+FROM kestra-project-486201.nytaxi.yellow_2024_tripdata   
+
+Answer: <b>BigQuery is a columnar database, and it only scans the specific columns requested in the query.  
+Querying two columns (PULocationID, DOLocationID) requires reading more data than querying one column (PULocationID),  
+leading to a higher estimated number of bytes processed.</b>  
+
+<h3>Question 4 </h3>  
+
+Query:   
+
+SELECT COUNT(*)  
+FROM kestra-project-486201.nytaxi.yellow_2024_tripdata  
+WHERE fare_amount = 0   
+
+Answer: <b>8,333</b>  
+
+<h3>Question 5</h3>  
+
+Query:  
+
+CREATE OR REPLACE TABLE kestra-project-486201.nytaxi.yellow_2024_tripdata_partitioned_clustered  
+  PARTITION BY DATE(tpep_dropoff_datetime)  
+  CLUSTER BY VendorID  
+AS  
+SELECT *  
+FROM kestra-project-486201.nytaxi.yellow_2024_tripdata    
+
+Answer: <b>Partition by tpep_dropoff_datetime and Cluster on VendorID</b>  
+
+<h3>Question 6</h3>  
+
+Answer: <b>310.24 MB for non-partitioned table and 26.84 MB for the partitioned table</b>
