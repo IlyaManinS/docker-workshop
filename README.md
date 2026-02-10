@@ -207,3 +207,8 @@ Answer: <b>Partition by tpep_dropoff_datetime and Cluster on VendorID</b>
 <h3>Question 6</h3>  
 
 Answer: <b>310.24 MB for non-partitioned table and 26.84 MB for the partitioned table</b>
+
+
+<h3>Question 8</h3>  
+
+Answer: <b>False </b>. While it's a good practice to cluster your data, you wouldn't want to spend your time clustering small tables <1GB, so, the answer if you need <b>always</b> cluster your data is False.
