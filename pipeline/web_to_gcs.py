@@ -125,6 +125,8 @@ def web_to_gcs(year, service):
         try:
             for chunk in pd.read_csv(file_name, compression='gzip', low_memory=False,
                                      chunksize=CHUNK_SIZE, dtype=dtype):
+                if 'store_and_fwd_flag' in chunk.columns:
+                    chunk['store_and_fwd_flag'] = chunk['store_and_fwd_flag'].map({'Y': True, 'N': False}).astype('boolean')
                 # Convert pandas DataFrame chunk to a PyArrow table
                 table = pa.Table.from_pandas(chunk)
 
