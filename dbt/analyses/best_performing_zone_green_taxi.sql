@@ -11,3 +11,5 @@ with ranked_zones AS (
 SELECT pickup_zone, sum_total_amount
 FROM ranked_zones
 WHERE zone_rank = 1
+
+-- Answer East Harlem North (1817360.05)
